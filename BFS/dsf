@@ -1,0 +1,43 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+int N, M;
+int up[110];
+int visited[110];
+int upcount;
+int loc;
+queue<pair<int,int> > q;
+int count1;
+
+
+
+int  bfs(){
+    
+    while(!q.empty()){
+        int z=q.size();
+        loc= q.front().first;
+        int count= q.front().second;
+        for(int i=1; i<=6;i++){
+            if(){
+                
+            }
+        }
+    }
+}
+
+
+int main(){
+    cin >> N >> M;
+    int i;
+    int insert1, insert2;
+    for(i=0;i<N;i++){
+        cin >>  insert1 >> insert2;
+        up[insert1] = insert2;
+    }
+    q.push(make_pair(1,0));
+    int result= bfs();
+
+
+    cout << result;
+}
