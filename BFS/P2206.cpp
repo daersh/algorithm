@@ -1,141 +1,124 @@
 #include <bits/stdc++.h>
 
 using namespace std;
-#define used 1
-#define notused 0
+typedef pair<int,int> pii;
 
 // 가로 세로
 int M, N;
 // data 저장
-int arr[1100][1100];
-int visited[1100][1100];
+int arr[1010][1010];
+int visited[1010][1010];
 int result;
 
-struct location {
-  int x;
-  int y;
-  int wall_break;
-} loca;
+queue<pii> q;
+queue<pii> q2;
 
-//위치, 카운트, 벽넘었는지
-queue<pair<struct location, int>> q;
+int arr2[1010][1010];
 
-// 1 담아봄
-queue<struct location> wall;
+int arr3[1010][1010];
+int visited2[1010][1010];
+int cnt=1;
 
-void bfs() {
-  while (!q.empty()) {
-    int x = q.front().first.x;
-    int y = q.front().first.y;
-    int count = q.front().second;
-    q.pop();
-    if (visited[x][y])
-      continue;
+void bfs(){
 
-    if (x == N - 1 && y == M - 1) {
+  //시작지점 
+  q.push(make_pair(0,0) );
+  arr2[0][0]=1;
+  
 
-      if (result == 0)
-        result = count;
-      else if (result != 0) {
-        if (result > count) {
-          result = count;
+  while(!q.empty() || !q2.empty()){
+    cnt+=1;
+    int z= q.size();
+    for(int k=0;k<z;k++){
+      int x= q.front().first;
+      int y = q.front().second;
+      q.pop();
+        if(visited[x][y]==true){
+          continue;
         }
+        visited[x][y]=true;
+        visited2[x][y]=true;
+        
+        int x_new[4]= {0,0, -1,  1};
+        int y_new[4]= {1,-1,0,0};
+
+        for(int i=0;i<4;i++){
+          int x_val= x+x_new[i];
+          int y_val= y+y_new[i];
+          if(x_val>=0 && x_val<N && y_val>=0 && y_val<M && visited[x_val][y_val]==false){
+            if(arr[x_val][y_val]==0){
+              visited2[x][y]=true;
+              arr2[x_val][y_val]=cnt;
+              q.push(make_pair(x_val,y_val));
+            }
+            else if(arr[x_val][y_val]==1){
+              arr3[x_val][y_val]=cnt;
+              q2.push(make_pair(x_val,y_val));
+            }
+          }
+        }
+    }
+
+
+    int z2= q2.size();
+    for(int k=0;k<z2;k++){
+      int x= q2.front().first;
+      int y = q2.front().second;
+      q2.pop();
+        //벽일 때 벽을 넘었다는 가정으로 그 주변으로 이동하는 예외상황 배열에 추가
+      if(visited2[x][y]==true){
+          continue;
       }
-    }
 
-    visited[x][y] = true;
+        visited2[x][y]=true;
+        int x_new[4]= {0,0, -1,  1};
+        int y_new[4]= {1,-1,0,0};
 
-    if (x < N - 1 && visited[x + 1][y] != true && arr[x + 1][y] == 0) {
-      loca.x = x + 1;
-      loca.y = y;
-      q.push(make_pair(loca, count + 1));
-    }
+        for(int i=0;i<4;i++){
+          int x_val= x+x_new[i];
+          int y_val= y+y_new[i];
 
-    if (y < M - 1 && visited[x][y + 1] != true && arr[x][y + 1] == 0) {
-      loca.x = x;
-      loca.y = y + 1;
-      q.push(make_pair(loca, count + 1));
-    }
+          if(x_val>=0 && x_val<N && y_val>=0 && y_val<M && visited2[x_val][y_val]==false){
+            
+            if(arr[x_val][y_val]==0){
+              arr3[x_val][y_val]=cnt+1;
+              q2.push(make_pair(x_val,y_val));
+            }
+          }
+        }
 
-    if (x > 0 && visited[x - 1][y] != true && arr[x - 1][y] == 0) {
-      loca.x = x - 1;
-      loca.y = y;
-      q.push(make_pair(loca, count + 1));
     }
-
-    if (y > 0 && visited[x][y - 1] != true && arr[x][y - 1] == 0) {
-      loca.x = x;
-      loca.y = y - 1;
-      q.push(make_pair(loca, count + 1));
-    }
-    
+  
   }
 }
 
 int main() {
   int i, j;
   int x, y;
-  cin >> N >> M;
+  scanf("%d", &N);  
+  scanf("%d",&M);
+  //벽 입력
   for (i = 0; i < N; i++) {
     for (j = 0; j < M; j++) {
       scanf("%1d", &arr[i][j]);
-      if (arr[i][j] == 1) {
-        loca.x = i;
-        loca.y = j;
-        wall.push(loca);
-      }
     }
   }
 
-  loca.x = 0;
-  loca.y = 0;
-  q.push(make_pair(loca, 1));
-  bfs();
+
+  bfs();  
   
 
-  while (wall.empty() == false) {
-    x = wall.front().x;
-    y = wall.front().y;
-    wall.pop();
-    if (x != 0 && x != N - 1 && arr[x - 1][y] == 0 && arr[x + 1][y] == 0) {
-      memset(visited, 0, sizeof(visited));
-      arr[x][y] = 0;
-      loca.x = 0;
-      loca.y = 0;
-      q.push(make_pair(loca, 1));
-      
-      
-    }
-    if (y != 0 && y != M - 1 && arr[x][y - 1] == 0 && arr[x][y + 1] == 0) {
-      memset(visited, 0, sizeof(visited));
-      arr[x][y] = 0;
-      loca.x = 0;
-      loca.y = 0;
-      q.push(make_pair(loca, 1));
-      
-    }
-    if (x != 0 && y != M - 1 && arr[x - 1][y] == 0 && arr[x][y + 1] == 0) {
-      memset(visited, 0, sizeof(visited));
-      arr[x][y] = 0;
-      loca.x = 0;
-      loca.y = 0;
-      q.push(make_pair(loca, 1));
-    }
-
-    if (y != 0 && x != N - 1 && arr[x + 1][y] == 0 && arr[x][y - 1] == 0) {
-      memset(visited, 0, sizeof(visited));
-      arr[x][y] = 0;
-      loca.x = 0;
-      loca.y = 0;
-      q.push(make_pair(loca, 1));
-    }
-
-    arr[x][y] = 1;
+  if(arr2[N-1][M-1]!=0 && arr2[N-1][M-1] <= arr3[N-1][M-1]){
+    cout << arr2[N-1][M-1]; 
+  }else if(arr3[N-1][M-1]!=0 && arr3[N-1][M-1] < arr2[N-1][M-1]){
+    cout << arr3[N-1][M-1];
+  }else if(arr2[N-1][M-1]==0 && arr3[N-1][M-1]!=0){
+    cout << arr3[N-1][M-1];
+  }else if(arr3[N-1][M-1]==0 && arr2[N-1][M-1]!=0){
+    cout << arr2[N-1][M-1];
   }
-
-  if (result == 0) {
+  else{ 
     cout << -1;
-  } else {
-    cout << result;
   }
+
 }

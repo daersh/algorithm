@@ -3,6 +3,8 @@
         "iostream": "cpp",
         "vector": "cpp",
         "queue": "cpp",
-        "ios": "cpp"
+        "ios": "cpp",
+        "random": "cpp",
+        "stack": "cpp"
     }
 }
