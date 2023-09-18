@@ -5,6 +5,7 @@
         "queue": "cpp",
         "ios": "cpp",
         "random": "cpp",
-        "stack": "cpp"
+        "stack": "cpp",
+        "iosfwd": "cpp"
     }
 }
