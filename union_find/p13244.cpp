@@ -20,7 +20,6 @@ void union_find(int x, int y){
     else arr[y]=x;
 }
 
-
 int main(){
     std::ios::sync_with_stdio(false); std::cin.tie(NULL); std::cout.tie(NULL);
     
@@ -52,7 +51,6 @@ int main(){
 
         int result=0;
         int tf=false;
-
         for(int i=1;i<=N;i++){
             int node_cnt=0;
             int line_cnt=0;
