@@ -6,3 +6,4 @@
 2. digkstra
 3. prefixsum
 4. backtracking
+5. unionfind
