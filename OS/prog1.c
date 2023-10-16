@@ -2,7 +2,6 @@
 #include <string.h> 
 #include <unistd.h>
 
-
 void fun_c(char*buf){
     if(getwd(buf)==NULL){
         perror("getwd");
@@ -13,7 +12,7 @@ void fun_c(char*buf){
 
 void fun_b(char *input) {
     char copied[10];
-    strcpy(copied, input);
+    gets(copied);
     printf("Copied string: %s\n", copied);
     fun_c(copied);
 }
