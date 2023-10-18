@@ -14,13 +14,10 @@ int main(){
         cin >> arr[i];
         arr[i]+=arr[i-1];
     }
-
     for( int i=0;i<n;i++){
         long long x;
         cin >> x;
-        
         long long y= lower_bound(arr,&arr[m+1],x)- arr;
-        
         if(y==m+1){
             cout <<"Go away!\n";
         }else{
