@@ -19,6 +19,7 @@ public class p27651 {
         int n = Integer.parseInt(br.readLine());
         long []arr= new long[n+1];
         StringTokenizer st = new StringTokenizer(br.readLine());
+
         for(int i=1;i<=n;i++){
             arr[i]= Integer.parseInt(st.nextToken());
             arr[i]+=arr[i-1];
@@ -26,7 +27,7 @@ public class p27651 {
 
         int start= 1;
         int end= 2;
-        int cnt=0;
+        long cnt=0;
         long head = arr[start];
         for(int i=1; i< n-1;i++){
             head = arr[i];
@@ -46,18 +47,24 @@ public class p27651 {
                     r=mid;
                 }
             }
+            if(l>r){
+                int temp = l;
+                l=r;
+                r=temp;
+            }
             int loc2;
             if(arr[n]-arr[r]>head){
                 loc2=r;
             }else{
                 loc2=l;
             }
-            //System.out.printf("l: %d r: %d loc2: %d\n",l,r,loc2);
-            //System.out.printf("loc: %d\n",loc);
+            // System.out.println("loc1: "+ loc );
+            // System.out.println("loc2: " + loc2);
             cnt+= loc2-loc+1;
         }
         System.out.println(cnt);
     }
+
     //벌레 가슴 크기 최대치 구하기
     static int lowerbound(long[]arr, int end,long head, int n){
         int l= end;
@@ -71,14 +78,20 @@ public class p27651 {
             l_val= arr[mid]-head;
             r_val = arr[n]-arr[mid];
             
-            if(l_val<=r_val || r_val<=head){
+            if(l_val<=r_val ){
                 l=mid;
             }else{
                 r=mid;
             }
-
         }
 
+        if(l>r){
+            int temp = l;
+            l= r;
+            r= temp;
+        }
+        // System.out.println("l: "+ l + " r: "+ r);
+        // System.out.println("head: "+head+" arr[n]-arr[l]: "+ (arr[n]-arr[l]) + "  arr[n]-arr[r]: "+ (arr[n]-arr[r]) );
         if(arr[n]-arr[l]>head && arr[l]-head>arr[n]-arr[l]){
             return l;
         }else if(arr[n]-arr[r]>head && arr[r]-head>arr[n]-arr[r]){
