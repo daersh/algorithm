@@ -1,131 +1,47 @@
-#include<iostream>
-#include<vector>
-#include<queue>
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <algorithm>
 
 using namespace std;
-
+const int INF = 1e9;
 typedef pair<int,int> pii;
 
-const int INF = 1e9;
+int n, m;
+int s, e;
+vector<pii> vec[510];
+int back[510]; //역추적s
+int d[510]; //거리
+int enabled[510]; //1일때 통과 불가
 
-int N,M;
-int startp,endp;
-int d[510];
-int used[510];
+void digkstra(){
+    priority_queue<pii, vector<pii>,greater<pii> > pque;
+    d[s]= 0;
+    pque.push(make_pair(0,s));
 
-void digkstra(int start , vector<pii> vec[]){
-    priority_queue<pii,vector<pii>,greater<pii> > pque;
-
-    pque.push(make_pair(0,start));
-    d[startp]=0;
-    
     while (!pque.empty())
     {
         int dd= pque.top().first;
-        int l=pque.top().second;
+        int ll= pque.top().second;
         pque.pop();
 
-        if(dd>d[l]) continue;
+        if(dd>d[ll])continue;
 
-        for(int i=0;i<vec[l].size();i++){
-            int ddd = vec[l][i].first;
-            int lll = vec[l][i].second;
-            if(ddd+dd < d[lll]){
-                d[lll]=ddd+dd;
-                used[lll]=l;
-                pque.push(make_pair(d[lll],lll));
-            }
+        for(int i=0;i<vec[ll].size();i++){
+            
         }
     }
+    
 }
 
 int main(){
-    
-    while (1)
-    {
-        cin >> N >> M;
-        cin >> startp >> endp;
 
-        int arr[N+1];
-        vector<pii> vec[N+1];
-        vector<pii> ld;
-        fill(&d[0],&d[N+1],INF);
-        fill(&used[0],&used[N+1],false );
-
+    for(int i=0 ;i<9;i++){
         int x,y,z;
-        for(int i=0;i<M;i++){
-            cin >> x >> y >> z;
-            vec[x].push_back(make_pair(z,y));
-            if(y==endp){
-                ld.push_back(make_pair(z,x));
-            }
-        }
-        digkstra(startp,vec);
-
-        for(int i=0;i<ld.size();i++){
-
-            int dist= ld[i].first;
-            int loc= ld[i].second;
-
-            if(d[loc]+dist== d[endp]){
-                cout << "같은 경로 발견\n";
-                ld[i].first=-1;
-                int x= used[loc];
-
-                while(1){
-                    if(d[x]==INF || d[x]==-1){
-                        break;
-                    }
-                    d[x]=-1;
-                    if(x== used[x] || startp == used[x]){
-                        break;
-                    }
-                    x=used[x];
-                    
-                }
-            }
-        }
-        
-
-        for(int i=0;i<N;i++){
-            cout << d[i] << ' ';
-        }cout << '\n';
-       
-
-        int min =INF;
-
-        for(int i=0;i<ld.size();i++){
-            cout << i<< '\n';
-            //d[x]+z == M ? 
-            int loc= ld[i].second;
-            int dist= ld[i].first;
-            if(dist==-1){
-                continue;
-            }
-
-            if(d[loc]+dist>d[endp]){
-
-                int x= used[loc];
-
-                while(d[x]!=INF || d[x]!=0 ){
-                    if(d[x]==-1 || x== used[x]){
-                        break;
-                    }
-                    x=used[x];
-                }
-
-                if(x!=false){
-                    if(min>dist){
-                        min=dist;
-                    }
-                }
-
-            }
-        }
-
-        cout << "min fin \n";
-
-        cout << min << '\n';
-
+        cin >> x>>y>>z;
+        vec[x].push_back(make_pair(z,y));
+        vec[y].push_back(make_pair(z,x));
     }
+    fill(&d[0],&d[n],INF);
+
 }

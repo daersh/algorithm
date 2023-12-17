@@ -25,6 +25,7 @@ int lower_bound(long long t){
 }
 
 int main(){
+    ios_base::sync_with_stdio(false);cin.tie(NULL); cout.tie(NULL);
     //상어마리수, 먹을수 있는 마리수, 최초크기
     cin >> n >> k >> t;
     int used[200010]={0};
@@ -35,25 +36,30 @@ int main(){
     }
 
     sort(vec.begin(),vec.end());
+    vector<int>vec2;
+    int loc=0;
+    int cnt=0;
 
-    for(int i=0;i<k;i++){
-        int loc = lower_bound(t);
-        if(loc==-1){
-            cout <<t;
-            return 0;
-        }
-        while(used[loc]!=0){
-            loc--;
-            if(loc<0){
+    while (loc<n)
+    {
+        if(cnt==k)break;
+        if(vec[loc]<t){
+            vec2.push_back(vec[loc]);
+            loc++;
+            continue;
+        }else{
+            cnt++;
+            if(vec2.empty()){
                 cout << t;
                 return 0;
             }
+            t+=vec2.back();
+            vec2.pop_back();
         }
-
-        t += vec[loc];
-        used[loc]++;
-        //cout << t<<' ';
     }
-
+    for(int i=cnt; i<k;i++){
+        t+=vec2.back();
+        vec2.pop_back();
+    }
     cout << t;
 }
