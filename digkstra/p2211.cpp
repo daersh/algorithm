@@ -7,12 +7,9 @@ using namespace std;
 const int INF = 1e9;
 typedef pair<int,int> pii;
 
-int n, m;
-
-
 int main(){
     ios_base::sync_with_stdio(false);cin.tie(NULL); cout.tie(NULL);
-
+		int n, m;
     //값 입력, 초기화
     cin >> n >> m;
     vector<pii> vec[n+1];
@@ -26,7 +23,6 @@ int main(){
     int back[n+1];
     int used[n+1];
     fill(&d[0],&d[n+1],INF);
-    //입력, 초기화 완료
 
     //다익스트라 시작
     d[1]=0;
@@ -48,12 +44,10 @@ int main(){
             }
         }
     }
-    //다익스트라 완료
 
-    //역추적값 저장할 변수, 카운트
-    vector<pii> result;
-    int cnt=0;
     //역추적시작
+    vector<pii> result;//역추적값 저장할 변수
+    int cnt=0;         //간선 개수
     for(int i=n;i>0;i--){
         int loc= i;
         while(loc!=1){
@@ -68,7 +62,6 @@ int main(){
             }
         }
     }
-    //역추적 완료
 
     //결과값 출력
     cout << cnt<<'\n';
@@ -76,4 +69,3 @@ int main(){
         cout << result[i].first << ' '<<result[i].second<<'\n';
     }
 }
-
