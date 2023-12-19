@@ -3,40 +3,32 @@
 #include <vector>
 
 using namespace std;
-
+const int INF = 1e9;
 int n; 
-//배열, 시작값, 끝 위치
-bool eboon(long long arr[], int start, int end){
-    
-    long long end_val= arr[end];
-    long long start_val= arr[start];
+int arr[2010]; 
+int used[2010];
 
+int lowerbound(int val, int loc){
+    
     int l= 0;
     int r= n;
     while(l+1<r){
-        int mid= (l+r)/2;
-        if(end_val - start_val>mid){
-            l=mid;
+        int mid = (l+r)/2;
+        if(mid<val){
+            l= mid;
         }else{
-            r=mid;
+            r= mid;
         }
     }
-    cout << arr[end]<<"= "<<start_val << '+' <<arr[l]  << "or" << arr[r]<<'\n';
-
-    if(start_val+arr[l]==end_val && l!=end && l !=start){
-        cout << start_val << ' ' <<arr[l]<<'\n';
-        return true;
-    }else if(start_val+arr[r]==end_val && r!=end && r!=start){
-        cout << start_val << ' ' <<arr[r]<<'\n';
-        return true;
-    }else{
-        return false;
+    if(l!=loc && arr[r]==val){
+        return r;
+    }else {
+        return l;
     }
 }
 
 int main(){
     cin >> n;
-    long long arr[n];
     int zero=0;
     for(int i=0;i<n;i++){
         cin >> arr[i];
@@ -44,23 +36,29 @@ int main(){
             zero++;
         }
     }
-
-    sort(&arr[0],&arr[n]);
-
-    int cnt = 0;
-    if(zero>2){
-        cnt+=zero;
+    if(n==2) {
+        cout << 0;
+        return 0;
     }
-    for(int i=0;i<n;i++){
-        long long val = arr[i];
-        int loc=i;
-        for(int j=0;j<n;j++){
-            if(j==i) continue;
-            if(eboon(arr,j,i)==true){
-                cnt++;
-                break;
+    sort(&arr[0],&arr[n]);
+    int cnt =0;
+    //start
+    for(int i = 0; i< n-1; i++){
+        for(int j=i+1; j<n;j++){
+            //cout << '['<<i<<','<<j<<']' <<'\n';
+            int val = arr[j]+arr[i]; 
+            if(arr[i]<0 && arr[j]<0){
+                val= arr[i]-arr[j];
             }
+            if(val>arr[n-1] ) break;
+            if(used[val]==1)continue;
+            int loc = lowerbound(val,j);
+            
         }
     }
+    if(zero>1){
+        cnt+=zero-1;
+    }
     cout << cnt;
+
 }
