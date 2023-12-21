@@ -31,7 +31,7 @@ public class p2295 {
 
             long x= arr[end]-arr[start];
             int loc=lowerbound(arr, x);
-            if()
+
         }
 
     }
