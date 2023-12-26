@@ -1,64 +1,48 @@
 #include <iostream>
 #include <algorithm>
 #include <vector>
+#include <map>
 
 using namespace std;
-const int INF = 1e9;
-int n; 
-int arr[2010]; 
-int used[2010];
-
-int lowerbound(int val, int loc){
-    
-    int l= 0;
-    int r= n;
-    while(l+1<r){
-        int mid = (l+r)/2;
-        if(mid<val){
-            l= mid;
-        }else{
-            r= mid;
-        }
-    }
-    if(l!=loc && arr[r]==val){
-        return r;
-    }else {
-        return l;
-    }
-}
 
 int main(){
+    ios::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
+    int n=0;
     cin >> n;
-    int zero=0;
-    for(int i=0;i<n;i++){
+    long long arr[n];
+    map<long long,int> val;
+
+    for(int i=0; i< n;i++){
         cin >> arr[i];
-        if(arr[i]==0){
-            zero++;
-        }
+        val[arr[i]]++;
     }
-    if(n==2) {
+    
+    if(n==1 || n==2){
         cout << 0;
         return 0;
     }
     sort(&arr[0],&arr[n]);
-    int cnt =0;
-    //start
-    for(int i = 0; i< n-1; i++){
-        for(int j=i+1; j<n;j++){
-            //cout << '['<<i<<','<<j<<']' <<'\n';
-            int val = arr[j]+arr[i]; 
-            if(arr[i]<0 && arr[j]<0){
-                val= arr[i]-arr[j];
+    int result=0;
+    for(int i=0; i< n-1; i++){
+        for(int j = i+1; j <n;j++){
+            long long cmp = arr[i]+arr[j];
+            //cout << cmp<<"("<<val[cmp] <<")"<<"= "<< arr[i]<<" + "<< arr[j]<< '\n';
+            if(cmp>arr[n-1]) break;
+            if(val[cmp]==0) continue;
+
+            if(cmp == arr[i] || cmp == arr[j]){
+                if(cmp== arr[i] && cmp ==arr[j]){
+                    if(val[cmp]<3) continue;
+                }else if(cmp == arr[i]){
+                    if(val[cmp]<2) continue;
+                }else if(cmp==arr[j]){
+                    if(val[cmp]<2) continue;
+                }
             }
-            if(val>arr[n-1] ) break;
-            if(used[val]==1)continue;
-            int loc = lowerbound(val,j);
-            
+
+            result+=val[cmp];
+            val[cmp]=0;
         }
     }
-    if(zero>1){
-        cnt+=zero-1;
-    }
-    cout << cnt;
-
+    cout << result;
 }

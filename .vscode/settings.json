@@ -61,6 +61,7 @@
         "algorithm": "cpp",
         "__tree": "cpp",
         "map": "cpp",
-        "set": "cpp"
+        "set": "cpp",
+        "hash_map": "cpp"
     }
 }

@@ -1,144 +1,119 @@
 #include <iostream>
-#include <vector>
 #include <queue>
+#include <vector>
 #include <algorithm>
+#include <map>
 
 using namespace std;
-const int INF = 1e9;
+
+const int INF  = 1e9;
 typedef pair<int,int> pii;
 
-int n, m;
-int s, e;
-int d[510]; //거리
-int min_len= INF;
-int cnt=0;
+// struct NODE{
+//     int dist;
+//     int loc;
+//     bool stop=false;
+//     int next;
+// };
 
-void digkstra(vector<pii> vec[], int *back, int *endPoint){
-    priority_queue<pii, vector<pii>,greater<pii> > pque;
-    d[s]= 0;
-    pque.push(make_pair(0,s));
+// struct compare{
+//     bool operator()(const NODE& s1, const NODE& s2){
+//         return s1.dist > s2.dist;
+//     }
+// };
 
-    while (!pque.empty())
+int s,e,n,m;
+int d[510];
+
+void dig(vector<pii> *vec, int *back, vector<int> *saved){
+    priority_queue<pii,vector<pii>,greater<pii> > pq;
+    pq.push(make_pair(0,s));
+    d[s]=0;
+    while(!pq.empty())
     {
-        int dd= pque.top().first;
-        int ll= pque.top().second;
-        pque.pop();
+        int dd = pq.top().first;
+        int ll = pq.top().second;
+        pq.pop();
+        if(dd>d[ll]) continue;
 
-        if(dd>d[ll])continue;
-
-        for(int i=0;i<vec[ll].size();i++){
-            int ddd= vec[ll][i].first;
-            int lll= vec[ll][i].second;            
-            if(ddd+dd<d[lll]){
-                back[lll]=ll;
-                d[lll]=ddd+dd;
-                if(lll==e){
-                    if(min_len>d[lll]){
-                        cnt=0;
-                        min_len=d[lll];
-                    }
-                    endPoint[cnt]=ll;
-                    cnt++;
+        for(int i=0; i< vec[ll].size(); i ++){
+            int ddd = vec[ll][i].first;
+            int lll = vec[ll][i].second;
+            int tf=true;
+            for(int j=0; j<saved[ll].size();j++){
+                if(saved[ll][j]==lll){
+                    tf=false;
                 }
-                pque.push(make_pair(d[lll],lll));
-           }else if(d[lll]==ddd+dd &&e==lll){
-                endPoint[cnt]=ll;
-                cnt++;
-           }
-        }
-        
-    }   
-}
-
-void digkstra2(vector<pii> vec[], int *back, int *endPoint, vector<int> *enabled){
-    priority_queue<pii, vector<pii>,greater<pii> > pque;
-    d[s]= 0;
-    pque.push(make_pair(0,s));
-
-    while (!pque.empty())
-    {
-        int dd= pque.top().first;
-        int ll= pque.top().second;
-        pque.pop();
-
-        if(dd>d[ll])continue;
-
-        for(int i=0;i<vec[ll].size();i++){
-            int ddd= vec[ll][i].first;
-            int lll= vec[ll][i].second;            
-            if(ddd+dd<d[lll]){
-
-                int tf= false;
-                if(enabled[ll].size()!=0){
-                    for(int j=0;j<enabled[ll].size();j++){
-                        if(lll==enabled[ll][j]) {
-                            tf= true;
-                            break;
-                        }
-                    }
-                }
-                if(tf== true) continue;
+            }
+            if(ddd+dd<d[lll] && tf ==true){
                 back[lll]=ll;
-                d[lll]=ddd+dd;
-                pque.push(make_pair(d[lll],lll));
-           }
-        }
-    }   
-}
-
-void backtracking(int *back, int *endPoint, vector<int> *enabled){
-    //
-    for(int i=0; i<cnt;i++){
-        
-        int loc = endPoint[i];
-        enabled[loc].push_back(e);
-        cout <<e <<' '<< loc<<'\n';
-        while (loc!=s)
-        {
-            int temp = back[loc];
-            enabled[temp].push_back(loc);
-            cout <<loc <<' '<<temp <<'\n';
-            loc = temp;
+                d[lll]=ddd+dd;    
+                pq.push(make_pair(d[lll],lll));
+            }
         }
     }
+    int temp = e;
+    while (temp != s)
+    {
+        int x = back[temp];
+        saved[x].push_back(temp);
+        temp=x;
+    }
+    
 }
 
-
 int main(){
-
-    while(1){
-        int back[510]={0}; //역추적s
-        vector<int>back2[510];
-
-        int endPoint[510]={0};
-        vector<pii> vec[510];
-        vector<int> enabled[510]; //1일때 통과  불가
-        min_len= INF;
-        cnt= 0;
+    
+    while (1)
+    {
+        n= 1; m= 1;
         //insert
         cin >> n >> m;
-        if(n==0 && m==0) return 0;
+
+        if ( n== 0 && m == 0) break;
+
+        vector<pii> vec[n];
+        vector<int> saved[n];
         cin >> s >> e;
-        for(int i=0 ;i<m;i++){
-            int x,y,z;
-            cin >> x>>y>>z;
+        //cout << n <<' '<<m<<' '<<s<<' '<<e<<'\n';
+        for(int i=0; i< m; i++){
+            int x, y, z;
+            cin >> x >> y >> z;
             vec[x].push_back(make_pair(z,y));
         }
+
         fill(&d[0],&d[n],INF);
-        //insert end
+        int back[n];
+        fill(&back[0],&back[n],0);
         
-        //
-        digkstra(vec,back,endPoint);
-        backtracking(back,endPoint,enabled);
-        fill(&d[0],&d[n],INF);
-        digkstra2(vec,back,endPoint,enabled);
+        dig(vec,back,saved);
+        int min_val = d[e];
+        int cmp_val = min_val;
+        // cout <<" d : ";
+        // for(int i = 0 ; i < n; i++){
+        //     cout << d[i] << ' ';
+        // }cout << '\n';
+        // for(int i = 0 ; i < n; i++){
+        //     cout << back[i] << ' ';
+        // }cout << '\n';
+        int cnt=0;
+        while(1){
 
-        while(d[e]==min_len){
+            fill(&d[0],&d[n],INF);
+
+            dig(vec,back,saved);
+            cmp_val= d[e];
             
-        }
-        if(d[e]==INF) cout << "-1\n";
-        else cout << d[e]<<'\n';
+            if(cmp_val >= INF) {
+                cout << -1 << '\n';
+                break;
+            }else if (cmp_val!=min_val){
+                cout << cmp_val <<'\n';
+                break;
+            }
 
+        }
+        
     }
     
 }
