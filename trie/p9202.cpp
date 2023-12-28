@@ -7,108 +7,138 @@
 using namespace std;
 typedef pair<int,int> pii;
 
-
 struct Node{
-    Node* child[26]= {NULL};
+    Node* childs[26]= {NULL};
+
     bool isWord;
-    Node(): isWord(false){}
+    Node():isWord(false){}
 };
 
-int score, sum; 
-
+int x_new[8] = {1,-1,0,0, 1, 1, -1,-1};
+int y_new[8] = {0,0,1,-1, 1, -1, 1, -1};
+string max_string;
+int score;
+int word_cnt;
 struct Trie{
     Node *root;
-    Trie() {root = new Node();}
+    bool visited[4][4];
+    Trie(){root=new Node;}
+    ~Trie(){}
 
-    //노드 삽입 과정 
-    void insert(const char *str){
-        Node * loc = root;
-        for(int i=0;i<strlen(str);i++){
-            if(loc->child[str[i]-'A'==NULL]){
-                loc->child[str[i]-'A'] = new Node();
-                loc = loc->child[str[i]-'A'];
+    void init(){
+        for(int i=0; i<4; i++)
+            fill(&visited[i][0],&visited[i][4],false);
+    }
+
+    void insert(string input){
+        Node *node = root;
+        for(int i=0; i < input.length();i++){
+            if(node->childs[input[i]-'A']==NULL){
+                node->childs[input[i]-'A'] = new Node;
+                node = node->childs[input[i]-'A'];
             }else {
-                loc = loc->child[str[i]-'A'];
+                node = node->childs[input[i]-'A'];
+            }
+            if(i==input.length()-1){
+                node->isWord= true;
             }
         }
     }
+    
+    void find(string *prob){
+        int x=0,y=0;
+        max_string="";
+        score=0;
+        word_cnt=0;
+        for(int i=0; i<4;i++){
+            for(int j=0; j < 4; j++){
+                Node *node = root;
+                string data;
+                x= i;
+                y= j;
+                data+=prob[x][y];
+                cout <<"["<< x <<"," <<y<<"]\n";
+                if( node->childs[prob[x][y]-'A']==NULL) continue;
+                else node= node->childs[prob[x][y]-'A'];
+                
+                init();
+                dfs(node,x,y,1,prob,data);
 
-    void find(const char str[4][4]){
-        //bfs 방문 처리, backtracking도 필요할듯 -> O
-        int visited[4][4]= {0};
-        
-        for(int i=0;i<4;i++){
-            for(int j=0;j<4;j++){
-                if( root->child[str[i][j] -'A'] != NULL){
-                    Node * loc = root;
-                    queue<pii> q;
-                    int cnt;
-                    q.push( make_pair(i,j) );
-                    
-
-                    while(!q.empty()){
-                        int x = i, y= j;
-                        q.pop();
-                        int x_new[8]={-1,0,1,
-                                      -1,  1,
-                                      -1,0,1};
-                        int y_new[8]={-1,-1,-1,
-                                       0,  0,
-                                       1,1,1};
-
-                        for(int i=0;i<8;i++){
-                            int xnew= x+ x_new[i];
-                            int ynew= y+ y_new[i];
-                            if(xnew>=0 && xnew<4 && ynew>=0 && ynew<4 ){
-                                if(loc->child[str[xnew][ynew]- 'A']!=NULL){
-                                    cnt++;
-                                    loc= loc->child[str[xnew][ynew]- 'A'];
-                                }else {
-                                    continue;
-                                }
-                            }
-                            if(loc->isWord==true){
-                                cnt++;
-                            }
-                        }
-
-                    }
-                    cout << "cnt = "<< cnt;
-                }
+                cout << '\n';
             }
         }
+        cout<<score<<' '<< max_string<<' '<<word_cnt<<'\n';
+    }
+
+    void dfs(Node *node,int x,int y,int cnt,string *prob,string data){
+        Node *past_node= node;
+        if(visited[x][y]==true) {
+            data.pop_back();
+            return;
+        }
+        visited[x][y]=true;
+        for(int i=1; i<cnt;i++){
+            cout << ' ';
+        }
+        cout << prob[x][y]<<'\n';
+        if(node->isWord==true){
+            cout << data;
+            cout << " found\n";
+            word_cnt++;
+            if(data.length()>max_string.length()) max_string=data;
+            if(cnt==3 || cnt==4) score+=1;
+            else if(cnt==5) score+=2;
+            else if(cnt==6) score+=3;
+            else if(cnt==7) score+=5;
+            else if(cnt==8) score+=11;
+            data.pop_back();
+            visited[x][y]=false;
+            return;
+        }
+
+        if(cnt!=9){
+        for(int k=0;k<8;k++){
+                    int next_x= x+x_new[k];
+                    int next_y= y+y_new[k];
+                    if(next_x>=0&&next_y>=0&&next_x<4&&next_y<4
+                                        && visited[next_x][next_y]==false){
+                        if(node->childs[prob[next_x][next_y]-'A']!=NULL){
+                            data+=prob[next_x][next_y];
+                            node=node->childs[prob[next_x][next_y]-'A'];
+                            dfs(node,next_x,next_y,cnt+1,prob,data);
+                            node= past_node;
+                        }
+                    }
+                }
+        }
+        data.pop_back();
+        visited[x][y]=false;
     }
 };
 
+
+
 int main(){
-
-
     int n;
-    scanf("%d",&n);
+    cin >> n;
     Trie trie;
-    for(int i=0;i<n;i++){
-        char input[8];
-        scanf("%s",input);
-        trie.insert(input);
-
+    string input[n];
+    for(int i =0 ; i < n; i++){
+        cin >>input[i];
+        trie.insert(input[i]);
     }
+
     int m;
-    scanf("%d",&m);
-
-    //1,2 : 0 
-    //3,4 : 1
-    //5   : 2
-    //6   : 3
-    //7   : 5
-    //8   : 11
-    //bfs가 나으려나.......
-    
-    for(int t=0;t<m;t++){
-        char arr[4][4]={NULL};
-        for(int i=0;i<4;i++){
-            scanf("%s",arr[t]);
-        }  
-        trie.find(arr);
-
+    cin >> m;
+    string prob[4];
+    int score;
+    string longWord;
+    int cnt;
+    for(int i=0; i< m; i++ ){
+        for(int j = 0; j < 4; j ++){
+            cin >> prob[j];
+        }
+        trie.find(prob);
     }
+
 }
