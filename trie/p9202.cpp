@@ -81,7 +81,7 @@ struct Trie{
             cout << ' ';
         }
         cout << prob[x][y]<<'\n';
-        if(node->isWord==true){
+        if(node->isWord==true && data.length()<9){
             cout << data;
             cout << " found\n";
             word_cnt++;
