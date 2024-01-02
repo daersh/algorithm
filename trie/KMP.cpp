@@ -53,8 +53,8 @@ int main(){
     cin >> pattern;
     int max_len = 0;
     for(int j=0;j<pattern.length();j++){
-        
-        vector<int> table = makeTable(pattern);
+        string str = pattern.substr(j,pattern.length());
+        vector<int> table = makeTable(str);
         //KMP(parent,pattern);
         // for(int i=0; i< table.size();i++){
         //     cout << table[i] << ' ';
