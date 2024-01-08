@@ -1,0 +1,6 @@
+INSERT into lecture_tb (name,explain,major,plan,date,credit,time,face_to_face,max_capacity,recommend_grade,semester,subject_id,professor_id,lecture_room_number)
+values
+(1, (SELECT 과목이름 FROM 과목 WHERE 과목코드 = 1), 
+'데이터베이스 기초 및 응용', TRUE, NULL, 
+'MON_1-3', 3, 3, TRUE, 200, 
+(SELECT 권장학년 FROM 커리큘럼 WHERE 커리큘럼코드 = 1), 1, 1, 8, 1101),
