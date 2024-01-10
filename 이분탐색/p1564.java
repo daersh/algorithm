@@ -25,9 +25,15 @@ public class p1564 {
         st= new StringTokenizer(br.readLine());
         n=Integer.parseInt(st.nextToken());
         m=Integer.parseInt(st.nextToken());
+        
         for(int i=0;i<n;i++){
             st=new StringTokenizer(br.readLine());
             arr[i]=Integer.parseInt(st.nextToken());
         }
+        
     }
+
 }
+
+// 457 539 743 802
+// 
