@@ -20,7 +20,6 @@ void bfs(){
             if(arr[i][j]==2){
 
                 q.push(make_pair(i,j));
-
                 while (!q.empty())
                 {
                     int x= q.front().first;

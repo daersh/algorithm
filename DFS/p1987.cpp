@@ -11,7 +11,7 @@ int next_x[4]={0,0,1,-1};
 int next_y[4]={1,-1,0,0};
 
 void dfs(int x,int y){
-    
+
 }
 
 int main(){
@@ -30,6 +30,7 @@ int main(){
         for(int j=0;j<m;j++){
             char start = arr[i][j];
             visited[i][j]==true;
+            for(int i=0;)
             dfs(i,j);
             visited[i][j]==true;
         }
