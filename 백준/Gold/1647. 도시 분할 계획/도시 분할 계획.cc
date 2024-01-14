@@ -15,9 +15,6 @@ public:
         this->node[1]= b;
         this->distance = distance;
     }
-    bool operator <(Edge &edge){
-        return this->distance< edge.distance;
-    }
 };
 
 bool compare(const Edge &edge1, const Edge &edge2){
@@ -45,6 +42,7 @@ int findP(int parent[], int a, int b){
 }
 
 int main(){
+    ios::sync_with_stdio(false);cin.tie(0);cout.tie(0);
     cin >> n >> m;
     vector<Edge> vec;
 
