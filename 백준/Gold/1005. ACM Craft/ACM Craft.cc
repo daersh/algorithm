@@ -6,6 +6,7 @@ using namespace std;
 
 
 int main(){
+    ios::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
     int t;
     cin >> t;
     while (t!=0)
@@ -54,7 +55,9 @@ int main(){
                 if(arr2[next]==0) q.push(next);
             }
         }
-        
+        // for(int i=1; i<=n;i++){
+        //     cout << arr[i]<<' ';
+        // }cout <<'\n';
         int end_point;
         cin >> end_point;
         cout << arr[end_point]<<'\n';
