@@ -43,6 +43,7 @@ bool find_parent(int parent[], int x, int y){
 }
 
 int main(){
+    ios::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
     int n,m;
     cin >> n >> m;
     pair<int,int> arr[n+1]; // xy 위치 저장
