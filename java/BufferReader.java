@@ -1,8 +1,4 @@
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.StringReader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
@@ -11,38 +7,35 @@ public class BufferReader {
     static BufferedReader br;
     static BufferedWriter bw;
     static StringBuffer sb;
+		static StringTokenizer st;
 
-    //1: 빈칸
-    //2: 바이러스
-    static void solve() throws Exception{
-        StringTokenizer st= new StringTokenizer(br.readLine());
-        int n=Integer.parseInt(st.nextToken());
-        int m = Integer.parseInt(st.nextToken());
-        int [][]arr= new int[n+1][m+1];
-        // ArrayList<Integer>[] virus = new ArrayList(2);
-        for(int i=0;i<n;i++){
-            st = new StringTokenizer(br.readLine());
-            for(int j=0;j<m;j++){
-                arr[i][j]=Integer.parseInt(st.nextToken());
-                if(arr[i][j]==2){
-                    virus.add();
-                }
-            }
-        }
 
-    }
-
-    static void bfs(int[][] arr){
-
-        
-    }
-
-    public static void main(String[] args)throws Exception {
+		public static void main(String[] args)throws Exception {
+				//init
         br = new BufferedReader(new InputStreamReader(System.in));
         bw = new BufferedWriter(new OutputStreamWriter(System.out));
         sb = new StringBuffer();
 
-        solve();
-        
+        insert();
+        print();
     }
+
+    static void insert() throws Exception{
+				//입력받기
+        st= new StringTokenizer(br.readLine());
+				//입력받은 값을 변수에 넣어주기
+        int n=Integer.parseInt(st.nextToken());
+        int m = Integer.parseInt(st.nextToken());
+				
+				//출력할 내용 저장
+		sb.append(n+" ");
+		sb.append(m);
+    }
+
+	 static void print() throws Exception{
+		bw.flush();
+		bw.write(sb.toString());
+        bw.close();
+}
+    
 }
