@@ -19,8 +19,6 @@ int eboon(int v){
     return r;
 }
 
-
-
 int main(){
         ios::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
 
@@ -40,5 +38,3 @@ int main(){
     }
     cout << end_p+1;
 }
-//12
-// 1 5 4 2 3 8 6 7 9 3 4 5
