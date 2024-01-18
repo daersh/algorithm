@@ -18,7 +18,7 @@ void bfs(int start){
     while(!q.empty()){
 
         int x= q.front();
-        q.pop();
+        q.pop();        
         printf("%d ",x);
 
         for(i=0;i<a[x].size();i++){
