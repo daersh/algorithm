@@ -83,7 +83,7 @@ int main(){
     }
     if(cnt!=n-1) {
         cout << -1;
-    }
-    cout << sum;
+    }else
+        cout << sum;
 }
 

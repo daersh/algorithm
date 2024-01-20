@@ -23,17 +23,20 @@ int main(){
     ios::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
     cin >> n;
     
-    for(int i=0;i<n;i++){
-        cin >> arr1[i];
-    }
+    //for(int i=0;i<n;i++){
+    cin >> arr1[0];
+    
     vec.push_back(arr1[0]);
     for(int i=1; i< n ;i++){
+        cin >>arr1[i];
+        
         if(arr1[i]>vec.back()){
             vec.push_back(arr1[i]);
             end_p =vec.size()-1;
         }
         int pos = eboon(arr1[i]);
         vec[pos] = arr1[i];
+        
         for(int i=0;i<vec.size();i++){
             cout <<vec[i]<<' ';
         }cout <<'\n';
