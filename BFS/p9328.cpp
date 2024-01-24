@@ -46,46 +46,17 @@ int main(){
                 
         set<char> key;
         string key_insert;
+        cin>>key_insert;
         //키 삽입 
         for(int i=0; i< key_insert.length();i++){
-            key.insert(key_insert[i]);
+            key.insert((char)key_insert[i]);
         }
+        int result=0;
 
-        while (q.empty())
-        {
-            int x= q.front().first;
-            int y= q.front().second;
-            q.pop();
-            if(arr[x][y]=='!') continue;
-            arr[x][y]='!';
-            queue<pii> find_next;
-            find_next.push(make_pair(x,y));
-            while (!find_next.empty())
-            {
-                int x= find_next.front().first;
-                int y= find_next.front().second;
-                for(int i=0;i<4;i++){
-                    int x_next= x+x_new[i];
-                    int y_next= x+y_new[i];
-                    if(x_next>=0 && x_next<h && y_next>=0 && y_next<w){
-                        if(arr[x_next][x_next]!='!'&&arr[x_next][x_next]!='*'){
-                            if(arr[x_next][x_next]=='.'){
-                                find_next.push(make_pair(x_next,y_next));
-                            }else{
-                                if(key.find(arr[x_next][y_next]) ==true) {
-
-                                }
-                            }
-                        }
-                    }
-                    
-                }
-            }
-            
-        }
+       
         
         
-
+        cout << result;
 
         t--;
     }

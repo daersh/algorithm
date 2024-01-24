@@ -2,30 +2,21 @@
 #include<vector>
 #include<queue>
 #include<algorithm>
-
+#include<cmath>
 using namespace std;
-typedef pair<int,int> pii;
+
 // 아이 수, 아이친구관계, 인원제한
-    int n , m , k;
-
-int sum[30001];
+int n , m , k;
+typedef pair<int, long long> pii;
 int child[30001];
-vector<pii> pque;
+vector<pair<int,long long> > pque;
 long long result=0;
-struct Edge{
-    int node[2];
-    int sum;
-    Edge(int x, int y, int sum){
-        node[0]= x;
-        node[1]= y;
-        this ->sum= sum;
-    }
-};
-
+int dp[3011];
 int get_parent(int parent[],int x){
     if(parent[x]==x) return x;
     return parent[x]= get_parent(parent,parent[x]);
 }
+
 void union_parent(int parent[],int x,int y){
     x= get_parent(parent,x);
     y= get_parent(parent,y);
@@ -44,18 +35,17 @@ bool find_parent(int parent[],int x,int y){
     return false;
 }
 
-void dp(int loc, int cnt, long long sum){
-    //최대인원이상일 시 리턴
-    if(loc == pque.size()|| cnt==k ) return;
+// void dp(int loc, int cnt, long long sum){
     
-    if(cnt+pque[loc].first<k && pque[loc].second+sum> result) result=pque[loc].second+sum;
-
-    if(loc+1 != pque.size()){
-        dp(loc+1,cnt,sum);
-        dp(loc+1, cnt+pque[loc].first, sum+pque[loc].second);
-    }
-
-}
+//     if(cnt+pque[loc].first<k && pque[loc].second+sum> result) 
+//         result=pque[loc].second+sum;
+    
+//     if(loc+1 < pque.size()){
+//         dp(loc+1,cnt, sum);
+        
+//         dp(loc+1, cnt+pque[loc].first, sum + pque[loc].second );
+//     }
+// }
 
 bool compare(pii a, pii b){
     return a.first<b.first;
@@ -63,55 +53,40 @@ bool compare(pii a, pii b){
 
 
 int main(){
-    
     cin >> n>>m>>k;
-    vector<Edge> vec;
+    
     int parent[n+1];
-    for(int i=0; i<=n;i++){
+    int person[n+1];
+    for(int i=0; i<=n;i++) {
         parent[i]=i;
+        person[i]=1;
     }
     
     //각 아이가 가지고 있는 사탕 수
-    for(int i=1;i<=n;i++){
-        cin >>child[i];
-    }
+    for(int i=1;i<=n;i++) cin >>child[i];
     
     for(int i=0;i<m;i++){
         int x,y;
         cin >> x >>y;
-        vec.push_back(Edge(x,y,0));
-    }
-    
-    for(int i=0; i<vec.size();i++){
-        if(!find_parent(parent,vec[i].node[0],vec[i].node[1])){
-            union_parent(parent,vec[i].node[0],vec[i].node[1]);
-        }
+        union_parent(parent,x,y);
     }
     
     for(int i=1; i<=n;i++){
-        if(child[i]!=0){
-            int cnt=1;
-            int sum=child[i];
-
-            for(int j= i+1; j<=n;j++){
-                if(parent[i]==parent[j]){
-                    cnt++;
-                    sum+=child[j];
-                    child[j]=0;
-                }
-            }
-            pque.push_back(make_pair(cnt,sum));
+        if(parent[i]!=i){
+            int p = get_parent(parent,i);
+            child[p]+= child[i];
+            person[p] += person[i];
+        }
+    }
+    for(int i=1; i<=n;i++){
+        if(parent[i]!=i) continue;
+        for(int j= k-1; j-person[i]>=0;j--){
+            dp[j]= max(dp[j],dp[j-person[i]]+child[i]);
         }
     }
 
-    if(pque.size()==0) {
-        cout << 0; return 0;
-    }
-
-    //sort(pque.begin(),pque.end(),compare);
     // for(int i=0; i<pque.size();i++){
     //     cout << pque[i].second<<'\n';
     // }
-    dp(0,0,0);
-    cout << result;
+    cout << dp[k-1];
 }
