@@ -19,6 +19,7 @@ struct Node{
 };
 
 int main(){
+    ios::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
     int n ,m,k; // 세로,가로, 부술 수  있는 벽cnt
     cin >> n >> m >> k;
     int arr[n][m];
