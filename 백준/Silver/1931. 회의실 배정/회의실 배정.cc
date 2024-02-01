@@ -6,15 +6,16 @@ using namespace std;
 
 
 bool compare(pair<int,int> v1 , pair<int,int> v2){
-    if(v1.second<v2.second) return true;
+    
     if(v1.second==v2.second){
         if(v1.first<v2.first) return true;
     }
 
-    return false;
+    return v1.second<v2.second;
 }
 
 int main(){
+    ios::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
     int n;
     cin >> n;
     vector<pair<int,int> > vec;
