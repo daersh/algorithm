@@ -6,6 +6,7 @@
 using namespace std;
 
 int main(){
+    ios::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
     int n;
     cin >> n;
     int arr[n];
@@ -25,13 +26,11 @@ int main(){
     while (arr[minus_loc]<=0 && minus_loc<n)
     {
         int x =arr[minus_loc];
-        // cout << "x: "<<x <<'\n';
         minus_loc++;
         if(arr[minus_loc]<=0 && minus_loc<n){
             int y = arr[minus_loc];
             sum+= x* y ;
             minus_loc++;
-                        // cout << "x: "<<x <<"  y: "<<y<<'\n';
             if(y==0) break;
         }else{
             sum+=x;
@@ -39,24 +38,19 @@ int main(){
         }
     }
 
-    // cout <<' '<<sum<<'\n';
     while(arr[plus_loc]>1 && plus_loc>=0)
     {
         int x= arr[plus_loc];
-            // cout << "x: "<<x <<'\n';        
         plus_loc--;
-
         if(arr[plus_loc] > 1 && plus_loc>=0){
             int y = arr[plus_loc];
             sum+= x*y;
-            // cout << "x: "<<x <<"  y: "<<y<<'\n';
             plus_loc--;
         }else{
             sum+=x;
             break;
         }
     }
-    // cout << sum<<'\n';
     cout << sum+cnt;
     
     
