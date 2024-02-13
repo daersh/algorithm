@@ -6,10 +6,10 @@ import java.util.StringTokenizer;
 
 
 public class Main{
-    BufferedReader br;
-    BufferedWriter bw;
-    StringBuilder sb;
-    public void solve() throws Exception {
+    static BufferedReader br;
+    static BufferedWriter bw;
+    static StringBuilder sb;
+    public static void solve() throws Exception {
         int n = Integer.parseInt(br.readLine());
 
         while(n != 0) {
@@ -21,13 +21,13 @@ public class Main{
             sb.append(st.nextToken() + "\n");
         }
     }
-    public void print()throws Exception{
+    public static void print()throws Exception{
         bw.flush();
         bw.write(sb.toString());
         bw.close();
     }
 
-    public void main(String[] args) throws Exception{
+    public static void main(String[] args) throws Exception{
         //입력
         br = new BufferedReader(new InputStreamReader(System.in)); // input c++ cin
         bw = new BufferedWriter(new OutputStreamWriter(System.out)); // ouput c++ cout
