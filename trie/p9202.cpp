@@ -14,16 +14,18 @@ bool visited[4][4];
 struct Trie{
     bool isEnd;
     map<char,Trie*> child;
+    Trie *root;
 };
+
 Trie* getNewTrieNode()
 {
     Trie *node= new Trie; 
     node->isEnd = false;
     return node;
 }
-void insert(Trie *& root, const string &str){
-    if(root==nullptr) root = getNewTrieNode();
-    Trie *temp = root;
+void insert(Trie *& trie, const string &str){
+    if(trie.root==nullptr) trie->root = getNewTrieNode();
+    Trie *temp = root.;
     for(int i=0;i<str.length();i++){
         char x = str[i]; 
         if(temp->child.find(x) == temp->child.end()) 
