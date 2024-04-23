@@ -1,6 +1,7 @@
 #include <iostream>
 #include <algorithm>
 using namespace std;
+
 const int INF = 1e9;
 
 int main(){
@@ -24,8 +25,6 @@ int main(){
 
         while (start!=end)
         {
-            cout << "start: "<< start << ", end: "<<end <<"일 경우\n";
-            cout << "합: "<< arr[start]+arr[end] << ", cmp: "<<cmp <<'\n';
             if(abs(y-arr[start]+arr[end]) < abs(y-cmp)){
                 cmp=arr[start]+arr[end];
                 cnt=0;
@@ -33,14 +32,14 @@ int main(){
             if(abs(y-arr[start]+arr[end])== abs(y-cmp)){
                 cnt++;
             }
-            cout << cnt << '\n';
             if(arr[start]+arr[end]<y){
                 start++;
             }else{
                 end--;
             }
         }
-        cout << cnt;
+        
+        cout << cnt<<'\n';
 
     }
 
