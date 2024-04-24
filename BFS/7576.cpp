@@ -13,9 +13,11 @@ int count1=1;
 
 void dfs(int start, int end){
     int i;
-    //방문한 노드면 return
+
+
+    
     if(c[start][end]) return;
-    //처음 방문이면 방문으로 바꿈
+
     c[start][end]= true;
 
 
