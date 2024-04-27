@@ -18,7 +18,7 @@ int main(){
         int car=0;  // 올림수
         int onesize=n1.size();  // 첫번째 수의 자릿수
         int twosize=n2.size();  // 두번째 수의 자릿수
-        // cout<< "start: ";
+
         while(onesize>0||twosize>0)
         {
             int nn1=0;  // 첫번째 수의 자릿수 중 하나(일의 자리부터 시작)
