@@ -54,5 +54,6 @@ int main(){
     }
     dfs(0,0);
     cout << result << '\n';
+    printf("sksdfsdf");
     return 0;
 }
