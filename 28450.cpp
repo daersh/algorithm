@@ -23,7 +23,6 @@ struct Node{
 	}
 };
 
-
 int main(){
 	int n , m ;
 
