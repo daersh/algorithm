@@ -29,11 +29,14 @@ int dfs(int x, int y){
         if(nx < 0 || nx >= n || ny < 0 || ny >= m|| visited[nx][ny] == true || vals[nx][ny] == -1){
             continue;
         }
+
         if(vals[nx][ny]!=0){
             result += vals[nx][ny];
             continue;
         }
+        
         v= dfs(nx,ny);
+
         if(v==-1){
             vals[nx][ny] = -1;
         }
@@ -54,6 +57,6 @@ int main(){
     }
     dfs(0,0);
     cout << result << '\n';
-    printf("sksdfsdf");
+
     return 0;
 }
