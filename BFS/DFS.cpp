@@ -7,7 +7,7 @@ using namespace std;
 int number = NUM;
 int c[NUM];
 int b[NUM];
-//vector<int> a[1010];
+
 
 void dfs(int start, vector<int> a[]){
     int i;
