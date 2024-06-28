@@ -28,14 +28,13 @@ public class BufferReader {
         int m = Integer.parseInt(st.nextToken());
 				
 				//출력할 내용 저장
-		sb.append(n+" ");
-		sb.append(m);
+        sb.append(n+" ");
+        sb.append(m);
     }
 
-	 static void print() throws Exception{
+	static void print() throws Exception{
 		bw.flush();
 		bw.write(sb.toString());
-        bw.close();
-}
-    
+    bw.close();
+  }  
 }
