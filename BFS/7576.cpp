@@ -12,10 +12,7 @@ int count1=1;
     int N, M, V;
 
 void dfs(int start, int end){
-    int i;
-
-
-    
+    int i;    
     if(c[start][end]) return;
 
     c[start][end]= true;
