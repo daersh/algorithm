@@ -2,6 +2,7 @@
 
 using namespace std;
 
+// 입출에따라 조정
 int arr[1000010];
 
 int find_parent(int x){
