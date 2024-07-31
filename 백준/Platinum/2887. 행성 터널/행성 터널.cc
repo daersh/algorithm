@@ -41,6 +41,7 @@ bool compare(Edge &a, Edge &b){
 bool compare_x(Data &a, Data &b){
     return a.x<b.x;
 }
+
 bool compare_y(Data &a, Data &b){
     return a.y<b.y;
 }
