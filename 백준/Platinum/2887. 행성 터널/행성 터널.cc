@@ -37,6 +37,7 @@ struct Edge{
 bool compare(Edge &a, Edge &b){
     return a.dist<b.dist;
 }
+
 bool compare_x(Data &a, Data &b){
     return a.x<b.x;
 }
