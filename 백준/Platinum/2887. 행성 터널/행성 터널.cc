@@ -61,6 +61,7 @@ void union_parent(int x,int y){
     else parent[x]=y;
 }
 
+
 bool find_parent(int x,int y){
     x = get_parent(x);
     y = get_parent(y);
