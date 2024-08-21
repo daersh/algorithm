@@ -4,10 +4,12 @@
 
 using namespace std;
 
-const long long INF = 1e16;
+const long long INF = 1e13;
 typedef long long ll;
 
 int main(){
+            ios::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
+
 
     ll n , m ; // n : 풍선 푸는사람   m: 풍선 갯수
     cin >> n >> m;
@@ -34,6 +36,7 @@ int main(){
             cnt += mid/vec[i];
         }
 
+        // cout << "cnt: " << cnt << '\n';  
 
         if(cnt < m)
             l = mid;
@@ -41,6 +44,7 @@ int main(){
             r = mid;
     }
 
+    // cout << "l: "<< l << " r: " << r << '\n';
 
     ll lcnt = 0;
     ll rcnt = 0;
