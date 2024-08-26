@@ -5,11 +5,14 @@
 using namespace std;
 
 int main(){
+    
     ios::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
+    
     long long n ,m;
     cin >> n >> m ;
     vector<long long> vec;
     long long r=0;
+    
     for(long long i = 0; i < n; i++){
         long long x;
         cin >> x;
@@ -17,6 +20,7 @@ int main(){
         if(x>r)
             r=x;
     }
+
     long long l = 0;
 
     while(l+1<r){
