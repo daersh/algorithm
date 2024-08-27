@@ -18,11 +18,8 @@ int main(){
         cin >> x;
         arr.push_back(x);
     }
-    
     sort(arr.begin(), arr.end());
-
     long long cnt =0;
-
     for(int i = 0; i<n-1; i++){
         for(int j=i+1; j<n; j++){
         
@@ -31,9 +28,7 @@ int main(){
             sum*=-1;
             int l = lower_bound(arr.begin()+j+1, arr.end(),sum)-arr.begin();
             int r = upper_bound(arr.begin()+j+1, arr.end(),sum)-arr.begin();
-            // cout << "l = " << l << " r = " << r <<'\n';
             cnt+= r-l;
-            // cout << "cnt : " << cnt <<"\n";
         }
     }
 
