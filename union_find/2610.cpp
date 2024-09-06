@@ -1,86 +1,97 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <vector>
+#include <set>
 
 using namespace std;
-typedef pair<int,int> pii;
 
-queue<pii> q;
-queue<int> q2;
-int arr[110];
-int arr2[110];
+const int INF = 1e9; 
+vector<pair<int, int> > graph[101];
+int dist[101][101];
+int sum[101];
+int uArr[101];
 
-int find_parent(int x){
-    
-    if(arr[x]!=x){
-        return arr[x]= find_parent(arr[x]);
-    }else{
-        return x;
-    }
 
-}
-
-void union_parent(int x, int y){
-    x=find_parent(x);
-    y=find_parent(y);
-    if(arr2[x]<arr2[y]) arr[x]=y;
-    else arr[y]=x;
+int find_parent(int x)
+{
+    if (uArr[x] == x) return x;
+    else return uArr[x] = find_parent(uArr[x]);
 }
 
 
-int main(){
-    std::ios::sync_with_stdio(false); std::cin.tie(NULL); std::cout.tie(NULL);
-    int N,M;
-    cin >> N >> M;
+void union_parent(int x, int y)
+{
+    x = find_parent(x);
+    y = find_parent(y);
+    if (x != y) {
+        if (sum[x] <= sum[y]) uArr[y] = x;
+        else uArr[x] = y;
+    }
+}
 
-    for(int i=1;i<=N;i++){
-        //노드의 부모를 자신으로 설정
-        arr[i]=i;
+int main()
+{
+    int N, K;
+    ios_base::sync_with_stdio(false); cin.tie(NULL);cout.tie(NULL);
+
+    cin >> N >> K;
+    for (int i = 1; i <= N; i++) uArr[i] = i;
+
+    for (int i = 0; i < K; i++) {
+        int x, y;
+        cin >> x >> y;
+        graph[x].push_back(make_pair(y, 1));
+        graph[y].push_back(make_pair(x, 1));
     }
 
-    int x,y;
-    
-    for(int i=1;i<=M;i++){
-        cin >> x>>y;
-        arr2[x]++;
-        arr2[y]++;
-        q.push(make_pair(x,y));
+    for (int i = 1; i <= N; i++) {
+        for (int j = 1; j <= N; j++) {
+            dist[i][j] = INF;
+        }
     }
 
-    // for(int i=1;i<=N;i++){
-
-    //     cout << arr2[i] <<' ';
-    // }
-    // cout << '\n';
-    while(!q.empty()){
-        x=q.front().first;
-        y=q.front().second;
-        q.pop();
-        union_parent(x,y);
+    for (int i = 1; i <= N; i++) {
+        for (int j = 0; j < graph[i].size(); j++) {
+            int loc = graph[i][j].first;
+            int d = graph[i][j].second;
+            dist[i][loc] = d;
+        }
     }
 
-    
-    for(int i=1;i<=N;i++){
-        //find_parent(i);
-        //cout << arr[i] <<' ';
-    }
-    //cout << '\n';
+    //floyd warshall
+    for (int k = 1; k <= N; k++) {
+        for (int i = 1; i <= N; i++) {
+            for (int j = 1; j <= N; j++) {
+                
+                if (i == j) {
+                    dist[i][j] = 0;
+                    continue;
+                }
 
-    int cnt=0;
-    for(int i=1;i<=N;i++){
-        for(int j=1;j<=N;j++){
-            if(i==arr[j]){
-                cnt++;
-                q2.push(i);
-                break;
+                dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j]);
+
             }
         }
     }
 
-    cout << cnt << '\n' ;
-    while (!q2.empty())
-    {
-        cout << q2.front()<<'\n';
-        q2.pop();
+    for (int i = 1; i <= N; i++) {
+        for (int j = 1; j <= N; j++) {
+            if (dist[i][j] == INF) continue;
+            // 한 노드에서 가장 큰 값 찾기
+            sum[i] = max(sum[i], dist[i][j]); 
+        }
     }
-    
 
+    for (int i = 1; i <= N; i++) {
+        for (int j = 0; j < graph[i].size(); j++) {
+            union_parent(i, graph[i][j].first);
+        }
+    }
+
+    set<int> result;
+    for (int i = 1; i <= N; i++) result.insert(find_parent(i));
+    
+    cout << result.size() << "\n";
+    for (auto& it : result) cout << it << "\n";
+
+    return 0;
 }
