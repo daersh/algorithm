@@ -10,8 +10,7 @@ int n, m;
 pii next_arr[8]= {{1,1},{1,0},{0,1},{-1,-1},{-1,0},{0,-1},{1,-1},{-1,1} };
 
 int main(){
-    // ios::sync_with_stdio(0);
-    // cin.tie(0);
+    ios::sync_with_stdio(0);cin.tie(0);
 
     cin >> n >> m;
     int arr[n][m];
@@ -48,11 +47,8 @@ int main(){
             for(pii next_v: next_arr){
                 int x=loc.first+next_v.first;
                 int y=loc.second+next_v.second;
-                if( x>=n || y>=m || x<0 || y<0 || visited[x][y]) 
+                if( x>=n || y>=m || x<0 || y<0 || visited[x][y] ||arr[x][y]>arr[loc.first][loc.second]) 
                     continue;
-                if(arr[x][y]>arr[loc.first][loc.second]){
-                    continue;
-                }
 
                 visited[x][y]=1;
                 q.push({x,y});
