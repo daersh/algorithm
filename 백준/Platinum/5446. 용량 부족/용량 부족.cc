@@ -39,7 +39,7 @@ public:
         Trie* curr = this;
         for(char d: data){
             int loc;
-            
+
             if(d=='.') loc=52;
             else if(d-'0'>=0 && d-'0'<=9) loc= d-'0'+53;
             else if(d>='a' && d<='z') loc= d-'a';
@@ -97,6 +97,8 @@ public:
 
 
 int main(){
+    ios::sync_with_stdio(0);
+    cin.tie(0);
     int n,m;
     cin >> n;
     for (int t = 0; t < n; t++){
